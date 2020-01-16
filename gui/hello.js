@@ -1,3 +1,4 @@
+// Connect
 var holochain_connection = holochainclient.connect();
 
 // Render functions
@@ -21,43 +22,27 @@ function hello() {
   });
 }
 
-function create_post() {
-  const message = document.getElementById('post').value;
-  const timestamp = Date.now();
+function create_person() {
+  const name = document.getElementById('name').value;
   holochain_connection.then(({callZome, close}) => {
-    callZome('test-instance', 'hello', 'create_post')({
-      message: message,
-      timestamp: timestamp,
+    callZome('test-instance', 'hello', 'create_person')({
+      person: {name: name},
     }).then(result => show_output(result, 'address_output'));
   });
 }
-function retrieve_posts() {
+function retrieve_person() {
   var address = document.getElementById('address_in').value;
   holochain_connection.then(({callZome, close}) => {
-    callZome('test-instance', 'hello', 'retrieve_posts')({
-      agent_address: address,
-    }).then(result => display_posts(result));
+    callZome('test-instance', 'hello', 'retrieve_person')({
+      address: address,
+    }).then(result => show_person(result, 'person_output'));
   });
 }
-function get_agent_id() {
-  holochain_connection.then(({callZome, close}) => {
-    callZome('test-instance', 'hello', 'get_agent_id')({}).then(result =>
-      show_output(result, 'agent_id'),
-    );
-  });
-}
-function display_posts(result) {
-  var list = document.getElementById('posts_output');
-  list.innerHTML = "";
+function show_person(result) {
+  var person = document.getElementById('person_output');
   var output = JSON.parse(result);
   if (output.Ok) {
-      var posts = output.Ok.sort((a, b) => a.timestamp - b.timestamp);
-      for (post of posts) {
-        var node = document.createElement("LI");
-        var textnode = document.createTextNode(post.message);
-        node.appendChild(textnode);
-        list.appendChild(node);
-      }
+    person.textContent = ' ' + output.Ok.name;
   } else {
     alert(output.Err.Internal);
   }
