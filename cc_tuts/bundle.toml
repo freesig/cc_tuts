@@ -1,0 +1,17 @@
+bridges = []
+
+[[instances]]
+name = "cc_tuts"
+id = "__cc_tuts"
+dna_hash = "Qmdic1wGygMEh2k2yFwXM5ob1CPofgrYiHcAr4FRf4A3nw"
+uri = "file:dist/cc_tuts.dna.json" 
+
+[[UIs]]
+name = "CC Tuts"
+id = "cc_tuts_ui"
+#ui_bundle_hash = "Qm34abcde"
+uri = "dir:../gui" 
+
+[[UIs.instance_references]]
+ui_handle = "test-instance"
+instance_id = "__cc_tuts"
