@@ -32,7 +32,7 @@ function create_post() {
   });
 }
 function retrieve_posts() {
-  var address = document.getElementById('address_in').value;
+  var address = document.getElementById('address_in').value.trim();
   holochain_connection.then(({callZome, close}) => {
     callZome('test-instance', 'hello', 'retrieve_posts')({
       agent_address: address,
